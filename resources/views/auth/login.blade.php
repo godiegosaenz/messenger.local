@@ -4,12 +4,21 @@
 <b-container>
    <b-row align-h="center">
        <b-col cols="8">
-           <b-card header="featured"
-               header-tag="header"
-               footer="Card Footer"
-               footer-tag="footer"
+           <b-card
                title="Title">
-               <b-alert variant="success" show>Success Alert</b-alert>
+
+               @if($errors->any())
+                <b-alert variant="danger" show>
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $item)
+                            <li>{{ $item }}</li>
+                        @endforeach
+
+                    </ul>
+                </b-alert>
+                @else
+                    <b-alert variant="success" show>Ingrese sus datos</b-alert>
+                @endif
                 <b-form class="form-horizontal" method="POST" action="{{ route('login')}}">
                     {{ csrf_field() }}
                     <b-form-group id="exampleInputGroup1"
@@ -28,7 +37,7 @@
                    <b-form-group id="exampleInputGroup1"
                                    label="Contraseña:"
                                    label-for="password"
-                                   description="Tu correo estara segura">
+                                   description="">
                        <b-form-input id="password"
                                    type="password"
                                    name="password"

@@ -1,77 +1,91 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-   <div class="row justify-content-center">
-       <div class="col-md-8">
-           <div class="card">
-               <div class="card-header">{{ __('Register') }}</div>
+<b-container>
+    <b-row align-h="center">
+        <b-col cols="8">
+                <b-card
+                title="Title">
+                @if($errors->any())
+                <b-alert variant="danger" show>
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $item)
+                            <li>{{ $item }}</li>
+                        @endforeach
 
-                <div class="card-body">
-                   <form method="POST" action="{{ route('register') }}">
-                       @csrf
+                    </ul>
+                </b-alert>
+                @else
+                    <b-alert variant="success" show>Ingrese sus datos</b-alert>
+                @endif
+                 <b-form class="form-horizontal" method="POST" action="{{ route('register')}}">
+                     {{ csrf_field() }}
+                     <b-form-group id="InputGroupnombre"
+                                    label="Nombre:"
+                                    label-for="name"
+                                    description="Ejem: Diego">
+                        <b-form-input id="name"
+                                    type="text"
+                                    name="name"
+                                    required
+                                    value="{{old('name')}}"
+                                    autofocus
+                                    placeholder="Nombre">
+                        </b-form-input>
+                    </b-form-group>
+                     <b-form-group id="exampleInputGroup1"
+                                    label="Correo:"
+                                    label-for="email"
+                                    description="Tu correo esta seguro">
+                        <b-form-input id="email"
+                                    type="email"
+                                    name="email"
+                                    required
+                                    value="{{old('email')}}"
+                                    autofocus
+                                    placeholder="Correo">
+                        </b-form-input>
+                    </b-form-group>
+                    <b-form-group id="exampleInputGroup1"
+                                    label="Contraseña:"
+                                    label-for="password"
+                                    description="Clave">
+                        <b-form-input id="password"
+                                    type="password"
+                                    name="password"
+                                    required
+                                    value="{{old('password')}}"
+                                    autofocus
+                                    placeholder="Ingrese clave aqui">
+                        </b-form-input>
+                    </b-form-group>
+                    <b-form-group id="InputGroupRepetirclave"
+                                    label="Repetir contraseña:"
+                                    label-for="repassword"
+                                    description="La clave debe ser igual al campo superior">
+                        <b-form-input id="password_confirmation"
+                                    type="password"
+                                    name="password_confirmation"
+                                    required
+                                    value="{{old('password_confirmation')}}"
+                                    autofocus
+                                    placeholder="Confirmar contrase;a">
+                        </b-form-input>
+                    </b-form-group>
 
-                        <div class="form-group row">
-                           <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                    <b-button
+                            type="submit"
+                            variant="primary">
+                        Confirmar registro
+                    </b-button>
+                    <b-button href="route('login')" variant="link">
+                        ¿Ya te has registrado?
+                    </b-button>
 
-                            <div class="col-md-6">
-                               <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+                 </b-form>
+            </b-card>
+        </b-col>
+    </b-row>
+</b-container>
 
-                                @if ($errors->has('name'))
-                                   <span class="invalid-feedback" role="alert">
-                                       <strong>{{ $errors->first('name') }}</strong>
-                                   </span>
-                               @endif
-                           </div>
-                       </div>
-
-                        <div class="form-group row">
-                           <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                               <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                   <span class="invalid-feedback" role="alert">
-                                       <strong>{{ $errors->first('email') }}</strong>
-                                   </span>
-                               @endif
-                           </div>
-                       </div>
-
-                        <div class="form-group row">
-                           <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                               <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                   <span class="invalid-feedback" role="alert">
-                                       <strong>{{ $errors->first('password') }}</strong>
-                                   </span>
-                               @endif
-                           </div>
-                       </div>
-
-                        <div class="form-group row">
-                           <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                               <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                           </div>
-                       </div>
-
-                        <div class="form-group row mb-0">
-                           <div class="col-md-6 offset-md-4">
-                               <button type="submit" class="btn btn-primary">
-                                   {{ __('Register') }}
-                               </button>
-                           </div>
-                       </div>
-                   </form>
-               </div>
-           </div>
-       </div>
-   </div>
-</div>
 @endsection
