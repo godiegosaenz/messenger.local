@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Messages;
+use App\Message;
 
 class MessagesTableSeeder extends Seeder
 {
@@ -12,15 +12,25 @@ class MessagesTableSeeder extends Seeder
      */
     public function run()
     {
-        Messages::create([
+        Message::create([
             'from_id' => 1,
             'to_id' => 2,
             'content' => 'Hola, como estas'
         ]);
-        Messages::create([
+        Message::create([
             'from_id' => 2,
             'to_id' => 1,
             'content' => 'Bien gracias'
+        ]);
+        Message::create([
+            'from_id' => 1,
+            'to_id' => 3,
+            'content' => 'Hola, a los tiempos'
+        ]);
+        Message::create([
+            'from_id' => 3,
+            'to_id' => 1,
+            'content' => 'Que tal'
         ]);
     }
 }
