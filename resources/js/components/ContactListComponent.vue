@@ -11,7 +11,7 @@
         <b-list-group>
             <contact-component variante="dark">
             </contact-component>
-            <contact-component variante="">
+            <contact-component variante="primary">
             </contact-component>
             <contact-component variante="secondary">
             </contact-component>

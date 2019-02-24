@@ -7,35 +7,34 @@
                 title="Title"
                 class="h-100"
             >
-            <p class="card-text">Header and pi variants.</p>
-            <b-media left-align vertical-align="center" class="mb-2">
-                <b-img rounded="circle" slot="aside" blank blank-color="#ccc" width="48" alt="placeholder" />
-                <b-card>
-                    Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-                    congue felis in faucibus.
-                </b-card>
-
-            </b-media>
-            <b-media right-align vertical-align="center" class="mb-2">
-            <b-img rounded="circle" slot="aside" blank blank-color="#ccc" width="48" alt="placeholder" />
-                <b-card>
-                    Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-                    congue felis in faucibus.
-                </b-card>
-
-            </b-media>
+            <message-conversation-component
+                v-for="message in messages"
+                :key="message.id"
+                :me="message.me"
+            >
+                {{ message.content }}
+            </message-conversation-component>
+            <!--<message-conversation-component>
+                Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
+                congue felis in faucibus.
+            </message-conversation-component>
+            <message-conversation-component me>
+                congue felis in faucibus.
+                Fusce condimentum nunc ac nisi vulputate
+            </message-conversation-component>-->
             <div slot="footer">
-                <b-form class="mb-0">
+                <b-form class="mb-0" @submit.prevent="postMessages" autocomplete="off">
                     <b-input-group>
                          <b-form-input class="text-center"
                             type="text"
+                            v-model="newMessage"
                             placeholder="Escribe un mensaje ..."
                             required>
 
                         </b-form-input>
 
                         <b-input-group-append>
-                            <b-button variant="primary">Enviar</b-button>
+                            <b-button type="submit" variant="primary">Enviar</b-button>
                         </b-input-group-append>
                     </b-input-group>
                 </b-form>
@@ -55,8 +54,38 @@
 
 <script>
     export default {
+        data() {
+            return {
+                messages : [],
+                newMessage : ''
+            }
+        },
         mounted() {
-            console.log('Component mounted.')
+            this.getMessages();
+        },
+        methods : {
+            getMessages() {
+                axios.get('/api/messages')
+                .then((response) => {
+
+                    console.log(response.data)
+                    this.messages = response.data;
+                });
+            },
+            postMessages() {
+                const params = {
+                    to_id : 2,
+                    content : this.newMessage
+                }
+                axios.post('/api/messages',params)
+                .then((response) => {
+                    //console.log(response.data)
+                    if(response.data.success){
+                        this.newMessage = '';
+                        this.getMessages();
+                    }
+                });
+            }
         }
     }
 </script>
